@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALSHAAM BAKERY LTD | Luxury Private Staff Portal</title>
+  <style>
+    :root{
+      --royal:#0b3d6e;
+      --royal-2:#14589a;
+      --navy:#072846;
+      --gold:#d4a64a;
+      --gold-soft:#f4e4b8;
+      --cream:#fbf8f1;
+      --paper:#ffffff;
+      --text:#1f2933;
+      --muted:#697786;
+      --line:#dbe7f3;
+      --success:#eef8f0;
+      --shadow:0 16px 40px rgba(7,40,70,.12);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.85), transparent 30%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4fb 45%, #f8f4eb 100%);
+    }
+
+    .hidden{display:none !important}
+
+    .login-page{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:
+        radial-gradient(circle at bottom left, rgba(212,166,74,.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(135deg, var(--navy), var(--royal-2));
+    }
+
+    .login-card{
+      width:100%;
+      max-width:500px;
+      background:rgba(255,255,255,.98);
+      border:1px solid rgba(255,255,255,.5);
+      border-radius:28px;
+      padding:34px;
+      box-shadow:0 24px 60px rgba(0,0,0,.18);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .login-card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(212,166,74,.06), transparent 28%);
+      pointer-events:none;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#f8f1df;
+      color:#8a6518;
+      border:1px solid #ead7a1;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    .login-card h1{
+      margin:0 0 8px;
+      font-size:32px;
+      color:var(--navy);
+      position:relative;
+      z-index:1;
+    }
+
+    .login-card p{
+      margin:0 0 20px;
+      color:var(--muted);
+      line-height:1.75;
+      position:relative;
+      z-index:1;
+    }
+
+    .field{
+      text-align:right;
+      margin-bottom:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    .field label{
+      display:block;
+      margin-bottom:7px;
+      font-size:14px;
+      font-weight:700;
+      color:var(--navy);
+    }
+
+    input{
+      width:100%;
+      padding:14px 15px;
+      font-size:16px;
+      border:1px solid #d7e2ef;
+      border-radius:14px;
+      outline:none;
+      background:#fff;
+    }
+
+    input:focus{
+      border-color:var(--royal-2);
+      box-shadow:0 0 0 3px rgba(20,88,154,.10);
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+      position:relative;
+      z-index:1;
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:13px 18px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--royal), var(--royal-2));
+      color:#fff;
+      flex:1;
+      box-shadow:0 10px 20px rgba(11,61,110,.16);
+    }
+
+    .btn-gold{
+      background:linear-gradient(135deg, #d9b15e, #c99736);
+      color:#fff;
+      flex:1;
+      box-shadow:0 10px 20px rgba(201,151,54,.18);
+    }
+
+    .btn-light{
+      background:#fff;
+      color:var(--royal);
+      border:1px solid #d7e4f1;
+      flex:1;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+
+    .error{
+      display:none;
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#fff2f2;
+      color:#b42318;
+      border:1px solid #ffd2d2;
+      font-size:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    .hint{
+      margin-top:14px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:right;
+      position:relative;
+      z-index:1;
+    }
+
+    .site{
+      max-width:1240px;
+      margin:0 auto;
+      padding:24px 16px 54px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      padding:38px 28px;
+      color:#fff;
+      background:
+        linear-gradient(135deg, rgba(212,166,74,.18), transparent 35%),
+        linear-gradient(135deg, var(--navy), var(--royal-2));
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .hero:before,.hero:after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      background:rgba(255,255,255,.07);
+    }
+
+    .hero:before{width:240px;height:240px;top:-90px;left:-60px}
+    .hero:after{width:180px;height:180px;bottom:-70px;right:-40px}
+
+    .hero-flex{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:22px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(30px,4vw,46px);
+      letter-spacing:.5px;
+    }
+
+    .hero p{
+      margin:0;
+      line-height:1.8;
+      opacity:.96;
+    }
+
+    .hero-note{
+      display:inline-block;
+      margin-top:14px;
+      padding:9px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.16);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .logo-box{
+      min-width:210px;
+      min-height:110px;
+      border:none;
+      border-radius:20px;
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:none;
+      font-weight:700;
+    }
+
+    .logo-box img{
+      width:190px;
+      max-width:100%;
+      height:auto;
+      filter:drop-shadow(0 10px 25px rgba(212,166,74,0.4));
+    }
+
+    .login-logo{
+      width:120px;
+      height:auto;
+      display:block;
+      margin:0 auto 15px;
+      filter:drop-shadow(0 10px 25px rgba(212,166,74,0.22));
+      position:relative;
+      z-index:1;
+    }
+
+    .top-controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin:18px 0;
+    }
+
+    .quick-info{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .info-card{
+      background:linear-gradient(180deg, #ffffff, #fcfdff);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .info-card:before{
+      content:"";
+      position:absolute;
+      top:0;left:0;right:0;
+      height:4px;
+      background:linear-gradient(90deg, var(--gold), var(--royal-2));
+    }
+
+    .info-card strong{
+      display:block;
+      color:var(--navy);
+      margin-bottom:8px;
+      font-size:15px;
+    }
+
+    .panel{
+      background:linear-gradient(180deg, #ffffff, #fcfdff);
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+
+    .panel-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding-bottom:14px;
+      margin-bottom:18px;
+      border-bottom:2px solid #edf3fa;
+    }
+
+    .panel h2{
+      margin:0;
+      font-size:29px;
+      color:var(--royal);
+    }
+
+    .tag{
+      background:linear-gradient(135deg, #f6edda, #fff8ea);
+      color:#8a6518;
+      border:1px solid #ead7a1;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .sections{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
+    .section{
+      background:linear-gradient(180deg, #fff, #fbfdff);
+      border:1px solid #e7eff7;
+      border-radius:20px;
+      padding:18px;
+      transition:.2s ease;
+    }
+
+    .section:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 24px rgba(7,40,70,.05);
+    }
+
+    .section h3{
+      margin:0 0 10px;
+      color:var(--navy);
+      font-size:19px;
+    }
+
+    ul{margin:0;padding-right:20px}
+    .en{direction:ltr;text-align:left}
+    .en ul{padding-right:0;padding-left:20px}
+    li{margin:7px 0; line-height:1.65}
+
+    .notice{
+      margin-top:18px;
+      padding:16px 18px;
+      border-radius:18px;
+      background:linear-gradient(180deg, #f7fbf7, #eef8f0);
+      border:1px solid #cde9d7;
+    }
+
+    .notice strong{
+      display:block;
+      color:#17663a;
+      margin-bottom:6px;
+    }
+
+    .signature-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .sig{
+      background:linear-gradient(180deg, #fffdf8, #ffffff);
+      border:1px solid #eadfcb;
+      border-radius:20px;
+      padding:18px;
+      box-shadow:0 10px 24px rgba(212,166,74,.06);
+    }
+
+    .sig h3{
+      margin:0 0 12px;
+      color:var(--royal);
+      font-size:20px;
+    }
+
+    .line{
+      border-bottom:1px solid #c7d7e7;
+      padding-bottom:8px;
+      margin:14px 0;
+      min-height:28px;
+    }
+
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin-top:10px;
+      padding-bottom:18px;
+    }
+
+    @media (max-width: 980px){
+      .quick-info,.sections,.signature-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 640px){
+      .login-card{padding:24px}
+      .actions,.top-controls{flex-direction:column}
+      .btn{width:100%}
+      .hero{padding:28px 18px}
+      .panel{padding:18px}
+      .logo-box{width:100%}
+    }
+
+    @media print{
+      body{background:#fff}
+      .top-controls{display:none}
+      .hero,.panel,.info-card,.sig{box-shadow:none}
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginPage" class="login-page">
+    <div class="login-card">
+      <img class="login-logo" src="B507EB31-B520-463E-A007-8B6F72607FB5.jpeg" alt="AL SHAAL BAKERY LOGO">
+      <div class="badge">Luxury Private Staff Portal</div>
+      <h1>ALSHAAM BAKERY LTD</h1>
+      <p>بوابة داخلية خاصة للموظفين بتصميم فاخر، لعرض تعليمات العمل وسلامة الغذاء والنظافة والتوقيع.</p>
+
+      <div class="field">
+        <label for="username">اسم المستخدم</label>
+        <input id="username" type="text" placeholder="مثال: staff">
+      </div>
+
+      <div class="field">
+        <label for="password">كلمة المرور</label>
+        <input id="password" type="password" placeholder="أدخل كلمة المرور">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="login()">دخول</button>
+      </div>
+
+      <div id="errorBox" class="error">اسم المستخدم أو كلمة المرور غير صحيحة.</div>
+    </div>
+  </div>
+
+  <div id="sitePage" class="site hidden">
+    <header class="hero">
+      <div class="hero-flex">
+        <div>
+          <h1>ALSHAAM BAKERY LTD</h1>
+          <p>بوابة تعليمات العمل الخاصة بالموظفين — نسخة أنيقة ومناسبة للطباعة والاستخدام الداخلي.</p>
+        </div>
+        <div class="logo-box"><img src="B507EB31-B520-463E-A007-8B6F72607FB5.jpeg" alt="AL SHAAL BAKERY LOGO"></div>
+      </div>
+    </header>
+
+    <div class="top-controls">
+      <button id="btnAr" class="btn btn-primary" onclick="showArabic()">العربية</button>
+      <button id="btnEn" class="btn btn-light" onclick="showEnglish()">English</button>
+      <button class="btn btn-light" onclick="window.print()">Print / PDF</button>
+      <button class="btn btn-light" onclick="logout()">Logout</button>
+    </div>
+
+    <section id="arabicPanel" class="panel">
+      <div class="panel-head">
+        <h2>التعليمات باللغة العربية</h2>
+        <span class="tag">AR</span>
+      </div>
+
+      <div class="sections">
+        <div class="section">
+          <h3>1. النظافة الشخصية</h3>
+          <ul>
+            <li>غسل اليدين قبل بدء العمل.</li>
+            <li>غسل اليدين بعد استخدام الحمام.</li>
+            <li>غسل اليدين بعد لمس الطعام النيء أو النفايات أو الأسطح المتسخة.</li>
+            <li>ارتداء ملابس عمل نظيفة دائماً.</li>
+            <li>ارتداء المريول والقفازات وغطاء الرأس عند الحاجة.</li>
+            <li>الحفاظ على الأظافر قصيرة ونظيفة.</li>
+            <li>عدم ارتداء الإكسسوارات أو المجوهرات أثناء العمل مع الطعام.</li>
+            <li>يُمنع التدخين أو الأكل أو الشرب في أماكن تحضير الطعام.</li>
+            <li>تغطية أي جرح أو إصابة بلاصق أزرق مقاوم للماء.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>2. نظافة مكان العمل</h3>
+          <ul>
+            <li>الحفاظ على جميع أماكن العمل نظيفة ومرتبة.</li>
+            <li>تنظيف وتعقيم الطاولات والصواني والآلات والأدوات بعد الاستخدام.</li>
+            <li>كنس ومسح الأرضيات بشكل منتظم.</li>
+            <li>تنظيف أي انسكاب فوراً لمنع الانزلاق.</li>
+            <li>تفريغ سلال النفايات بانتظام وإبقاء أغطيتها مغلقة.</li>
+            <li>حفظ مواد التنظيف بعيداً عن الطعام.</li>
+            <li>استخدام مواد التنظيف المناسبة لكل منطقة.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>3. سلامة الغذاء</h3>
+          <ul>
+            <li>فحص جميع المواد الغذائية قبل الاستخدام.</li>
+            <li>عدم استخدام أي مواد منتهية الصلاحية أو تالفة أو فاسدة.</li>
+            <li>تخزين الطعام بدرجة الحرارة المناسبة.</li>
+            <li>فصل الطعام النيء عن الطعام الجاهز للأكل.</li>
+            <li>استخدام أدوات وعبوات نظيفة.</li>
+            <li>منع التلوث المتبادل في جميع الأوقات.</li>
+            <li>اتباع نظام تدوير المخزون: الأول دخولاً هو الأول خروجاً.</li>
+            <li>حفظ المكونات مغطاة وموسومة بشكل واضح.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>4. الصحة والسلامة</h3>
+          <ul>
+            <li>الالتزام بجميع تعليمات السلامة في جميع الأوقات.</li>
+            <li>الإبلاغ فوراً عن أي خطر أو إصابة أو وضع غير آمن.</li>
+            <li>عدم استخدام الآلات أو المعدات إلا بعد التدريب عليها.</li>
+            <li>عدم لمس الصواني الساخنة أو الأفران أو المعدات بدون حماية.</li>
+            <li>استخدام القفازات أو الأدوات المقاومة للحرارة عند الحاجة.</li>
+            <li>إبقاء الممرات والمخارج خالية دائماً.</li>
+            <li>يُمنع الركض داخل المخبز.</li>
+            <li>رفع الأشياء الثقيلة بطريقة آمنة أو طلب المساعدة.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>5. السلامة من الحريق والطوارئ</h3>
+          <ul>
+            <li>معرفة أماكن مخارج الطوارئ.</li>
+            <li>معرفة مكان طفاية الحريق وصندوق الإسعافات الأولية.</li>
+            <li>عدم إعاقة أو إغلاق مخارج الطوارئ.</li>
+            <li>إطفاء المعدات بأمان بعد الاستخدام عند الحاجة.</li>
+            <li>في حال حدوث حريق أو خطر، يجب مغادرة المبنى فوراً.</li>
+            <li>إبلاغ المدير فوراً عند حدوث أي طارئ.</li>
+            <li>الاتصال بخدمات الطوارئ عند الحاجة.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>6. قواعد العمل</h3>
+          <ul>
+            <li>الحضور إلى العمل في الوقت المحدد.</li>
+            <li>الالتزام بأوقات الدوام والاستراحة.</li>
+            <li>احترام المدير والزملاء والعملاء.</li>
+            <li>اتباع تعليمات المشرفين.</li>
+            <li>أداء العمل بعناية ومسؤولية.</li>
+            <li>عدم استخدام الهاتف أثناء العمل إلا إذا كان مسموحاً.</li>
+            <li>يُمنع الجدال أو الصراخ أو سوء التصرف في العمل.</li>
+            <li>إبلاغ الإدارة مبكراً في حال الغياب أو المرض.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>7. الأمان والسلوك الآمن</h3>
+          <ul>
+            <li>الحفاظ على الأبواب وغرف التخزين ومناطق المخزون آمنة عند الحاجة.</li>
+            <li>عدم السماح للأشخاص غير المصرح لهم بالدخول إلى مناطق العمل.</li>
+            <li>حماية ممتلكات الشركة والمخزون والمعدات.</li>
+            <li>الإبلاغ فوراً عن أي فقدان أو تلف أو سلوك مشبوه.</li>
+            <li>استخدام معدات المخبز لأغراض العمل فقط.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>8. الإبلاغ عن المشاكل</h3>
+          <ul>
+            <li>يجب إبلاغ المدير فوراً عن أي مشكلة.</li>
+            <li>الإبلاغ عن مشاكل سلامة الغذاء أو الحوادث أو المعدات التالفة أو السلوك غير الآمن.</li>
+            <li>يجب رفع أي مخاوف جدية دون خوف.</li>
+            <li>كل موظف مسؤول عن المساعدة في الحفاظ على المخبز آمناً ونظيفاً ومهنياً.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>ملاحظة مهمة</strong>
+        يجب قراءة هذه التعليمات بعناية قبل بدء العمل، ويُفضّل توقيع كل موظف بعد الاطلاع عليها.
+      </div>
+
+      <div class="signature-grid">
+        <div class="sig">
+          <h3>إقرار الموظف</h3>
+          <div class="line">اسم الموظف: ________________________</div>
+          <div class="line">المسمى الوظيفي: ________________________</div>
+          <div class="line">التوقيع: ________________________</div>
+          <div class="line">التاريخ: ________________________</div>
+        </div>
+        <div class="sig">
+          <h3>اعتماد الإدارة</h3>
+          <div class="line">اسم المدير: ________________________</div>
+          <div class="line">التوقيع: ________________________</div>
+          <div class="line">الختم / الملاحظة: ________________________</div>
+          <div class="line">التاريخ: ________________________</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="englishPanel" class="panel hidden en">
+      <div class="panel-head">
+        <h2>English Instructions</h2>
+        <span class="tag">EN</span>
+      </div>
+
+      <div class="sections">
+        <div class="section">
+          <h3>1. Personal Hygiene</h3>
+          <ul>
+            <li>Wash hands before starting work.</li>
+            <li>Wash hands after using the toilet.</li>
+            <li>Wash hands after touching raw food, waste, or dirty surfaces.</li>
+            <li>Wear clean work clothes at all times.</li>
+            <li>Wear an apron, gloves, and hair covering when required.</li>
+            <li>Keep nails short and clean.</li>
+            <li>Do not wear jewellery while working with food.</li>
+            <li>Do not smoke, eat, or drink in food preparation areas.</li>
+            <li>Cover any cuts or wounds with a blue waterproof plaster.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>2. Workplace Cleanliness</h3>
+          <ul>
+            <li>Keep all work areas clean and tidy.</li>
+            <li>Clean and sanitise tables, trays, machines, and tools after use.</li>
+            <li>Sweep and mop floors regularly.</li>
+            <li>Clean spills immediately to prevent slips.</li>
+            <li>Empty bins regularly and keep bin lids closed.</li>
+            <li>Store cleaning chemicals away from food.</li>
+            <li>Use the correct cleaning products for each area.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>3. Food Safety</h3>
+          <ul>
+            <li>Check all food before use.</li>
+            <li>Do not use expired, damaged, or spoiled ingredients.</li>
+            <li>Store food at the correct temperature.</li>
+            <li>Keep raw food separate from ready-to-eat food.</li>
+            <li>Use clean tools and containers.</li>
+            <li>Avoid cross-contamination at all times.</li>
+            <li>Follow stock rotation rules: first in, first out.</li>
+            <li>Keep ingredients covered and properly labelled.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>4. Health and Safety</h3>
+          <ul>
+            <li>Follow all safety instructions at all times.</li>
+            <li>Report any hazard, injury, or unsafe condition immediately.</li>
+            <li>Use machines and equipment only if trained.</li>
+            <li>Do not touch hot trays, ovens, or machinery without protection.</li>
+            <li>Use gloves or heat-resistant tools where needed.</li>
+            <li>Keep walkways and exits clear.</li>
+            <li>Do not run inside the bakery.</li>
+            <li>Lift heavy items safely or ask for help.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>5. Fire Safety and Emergency</h3>
+          <ul>
+            <li>Know where the fire exits are.</li>
+            <li>Know where the fire extinguisher and first aid box are kept.</li>
+            <li>Never block emergency exits.</li>
+            <li>Turn off equipment safely after use when required.</li>
+            <li>In case of fire or danger, leave the building immediately.</li>
+            <li>Inform the manager immediately in any emergency.</li>
+            <li>Call emergency services when needed.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>6. Work Rules</h3>
+          <ul>
+            <li>Arrive at work on time.</li>
+            <li>Follow your shift times and break times.</li>
+            <li>Respect managers, colleagues, and customers.</li>
+            <li>Follow instructions given by supervisors.</li>
+            <li>Do your work carefully and responsibly.</li>
+            <li>Do not use your phone during work unless allowed.</li>
+            <li>Do not argue, shout, or behave badly at work.</li>
+            <li>Report absence or sickness as early as possible.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>7. Security and Safe Conduct</h3>
+          <ul>
+            <li>Keep doors, storage rooms, and stock areas secure when required.</li>
+            <li>Do not allow unauthorised persons into work areas.</li>
+            <li>Protect company property, stock, and equipment.</li>
+            <li>Report missing items, damage, or suspicious behaviour immediately.</li>
+            <li>Use bakery equipment only for work purposes.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>8. Reporting Problems</h3>
+          <ul>
+            <li>Report any problem to the manager immediately.</li>
+            <li>Report food safety concerns, accidents, damaged equipment, or unsafe behaviour.</li>
+            <li>All serious concerns should be raised without fear.</li>
+            <li>Staff must help keep the bakery safe, clean, and professional.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>Important Note</strong>
+        Staff should read these instructions carefully before starting work, and each employee should sign after reviewing them.
+      </div>
+
+      <div class="signature-grid">
+        <div class="sig">
+          <h3>Employee Acknowledgement</h3>
+          <div class="line">Employee Name: ________________________</div>
+          <div class="line">Job Title: ________________________</div>
+          <div class="line">Signature: ________________________</div>
+          <div class="line">Date: ________________________</div>
+        </div>
+        <div class="sig">
+          <h3>Management Approval</h3>
+          <div class="line">Manager Name: ________________________</div>
+          <div class="line">Signature: ________________________</div>
+          <div class="line">Stamp / Note: ________________________</div>
+          <div class="line">Date: ________________________</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">ALSHAAM BAKERY LTD © Luxury Private Staff Portal</div>
+  </div>
+
+  <script>
+    function login(){
+      var u = document.getElementById('username').value.trim();
+      var p = document.getElementById('password').value;
+      if(u === 'staff' && p === '1234'){
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('sitePage').classList.remove('hidden');
+        document.getElementById('errorBox').style.display = 'none';
+      } else {
+        document.getElementById('errorBox').style.display = 'block';
+      }
+    }
+
+    function showArabic(){
+      document.getElementById('arabicPanel').classList.remove('hidden');
+      document.getElementById('englishPanel').classList.add('hidden');
+      document.getElementById('btnAr').className = 'btn btn-primary';
+      document.getElementById('btnEn').className = 'btn btn-light';
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+    }
+
+    function showEnglish(){
+      document.getElementById('englishPanel').classList.remove('hidden');
+      document.getElementById('arabicPanel').classList.add('hidden');
+      document.getElementById('btnEn').className = 'btn btn-primary';
+      document.getElementById('btnAr').className = 'btn btn-light';
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+    }
+
+    function logout(){
+      document.getElementById('sitePage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    document.getElementById('password').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') login();
+    });
+    document.getElementById('username').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') login();
+    });
+  </script>
+</body>
+</html>
